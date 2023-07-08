@@ -19,12 +19,11 @@ chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 # chrome_options.add_argument("--headless")
 
 driver = webdriver.Chrome(service=service, options=chrome_options)
-driver.maximize_window()
-driver.get("https://chat.openai.com/chat")
-
 helper_fn = helper_funcs.HelperFn(driver)
 
 def start_chat_gpt():
+    driver.maximize_window()
+    driver.get("https://chat.openai.com/chat")
     #if login page is present
     time.sleep(2)
     login_msg_xpath = "//*[contains(text(), 'Log in with your OpenAI account to continue')]"
@@ -44,7 +43,7 @@ def start_chat_gpt():
 
         time.sleep(2)
         #select mail
-        gmail_xpath = "//*[contains(text(), 'PRIYANSHU PATEL')]"
+        gmail_xpath = "//*[contains(text(), 'PRIYANSHU PATEL')]" ## change this to your google account name.
         helper_fn.wait_for_element(gmail_xpath)
         gmail = helper_fn.find_element(gmail_xpath)
         gmail.click()

@@ -89,6 +89,7 @@ To close the remote chrome browser. **(Only once)**
 ```
 api_backend.stop_chat_gpt()
 ```
+#### **Note**: You can run `testing_api.py` file to see how to use the API in your project.
 
 ## ⭐ Video.
 

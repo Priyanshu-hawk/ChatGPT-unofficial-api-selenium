@@ -93,7 +93,7 @@ api_backend.stop_chat_gpt()
 
 ## ⭐ Video.
 
-**Coming Soon :)**
+**Link** - https://youtu.be/cMCn2cljlls
 
 ## ⭐ Extras.
 

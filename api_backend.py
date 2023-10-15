@@ -21,6 +21,17 @@ chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
 driver = webdriver.Chrome(service=service, options=chrome_options)
 helper_fn = helper_funcs.HelperFn(driver)
 
+
+def check_guildlines():
+    guidlines_xpath = "//*[contains(text(), 'Tips for getting started')]"
+    helper_fn.wait_for_element(guidlines_xpath)
+    if helper_fn.is_element_present(guidlines_xpath):
+        guidlines_close_xpath = "//*[contains(text(), 'Okay, let’s go')]"
+        guidlines_close = helper_fn.find_element(guidlines_close_xpath)
+        guidlines_close.click()
+    else:
+        print("No guidlines found")
+
 def start_chat_gpt():
     driver.maximize_window()
     driver.get("https://chat.openai.com/chat")
@@ -51,6 +62,9 @@ def start_chat_gpt():
     else:
         print("Already logged in")
 
+    #check for guidlines
+    check_guildlines()
+
 def make_gpt_request(text):
 
     time.sleep(3)
@@ -61,7 +75,7 @@ def make_gpt_request(text):
         text_area.send_keys(text)
 
         #send button
-        send_btn_xpath = "/html/body/div[1]/div[1]/div[2]/div/main/div[3]/form/div/div/button"
+        send_btn_xpath = "//*[@data-testid='send-button']"
         helper_fn.wait_for_element(send_btn_xpath)
         send_btn = helper_fn.find_element(send_btn_xpath)
         time.sleep(2)
@@ -70,7 +84,7 @@ def make_gpt_request(text):
     time.sleep(5)
     #waiting for response
     response_xpath = "//*[@class='markdown prose w-full break-words dark:prose-invert light']"
-    regenrate_xpath = "//*[contains(text(), 'Regenerate response')]"
+    regenrate_xpath = "//*[contains(text(), 'Regenerate')]"
     helper_fn.wait_for_element(regenrate_xpath,120)
     if helper_fn.is_element_present(response_xpath):
         response = helper_fn.find_elements(response_xpath)[-1]
@@ -85,12 +99,15 @@ def stop_chat_gpt():
     
 if __name__ == "__main__":
     start_chat_gpt()
-
-    while True:
-        req = input("Enter text: ")
-        if req == "i quit!":
-            break
-        resp = make_gpt_request(req)
-        print(resp)
-        
+    
+    try:
+        while True:
+            req = input("Enter text: ")
+            if req == "i quit!":
+                break
+            resp = make_gpt_request(req)
+            print(resp)
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt detected, exiting...")
     stop_chat_gpt()
+    exit(0)

@@ -55,6 +55,8 @@ python chrome_handler.py s
 
 ***Now you can see a chrome browser window opened. You can use this browser to login to chatgpt. And accept the promepts which are asking for your permission on chatapt page.***
 
+#### https://chat.openai.com/chat paste this link to the remote chrome browser and login to chatgpt.
+
 ### 2. Close the remote chrome browser.
 ```
 python chrome_handler.py k

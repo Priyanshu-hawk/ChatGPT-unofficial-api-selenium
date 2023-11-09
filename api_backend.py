@@ -109,5 +109,6 @@ if __name__ == "__main__":
             print(resp)
     except KeyboardInterrupt:
         print("KeyboardInterrupt detected, exiting...")
-    stop_chat_gpt()
-    exit(0)
+    finally:
+        stop_chat_gpt()
+        exit(0)

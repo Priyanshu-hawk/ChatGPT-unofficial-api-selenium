@@ -84,7 +84,7 @@ def make_gpt_request(text):
     time.sleep(5)
     #waiting for response
     response_xpath = "//*[@class='markdown prose w-full break-words dark:prose-invert light']"
-    regenrate_xpath = "//*[contains(text(), 'Regenerate')]"
+    regenrate_xpath = '//*[@class="absolute p-1 rounded-md md:bottom-3 md:p-2 md:right-3 dark:hover:bg-gray-900 dark:disabled:hover:bg-transparent right-2 gizmo:dark:disabled:bg-white gizmo:disabled:bg-black gizmo:disabled:opacity-10 disabled:text-gray-400 enabled:bg-brand-purple gizmo:enabled:bg-black text-white gizmo:p-0.5 gizmo:border gizmo:border-black gizmo:rounded-lg gizmo:dark:border-white gizmo:dark:bg-white bottom-1.5 transition-colors disabled:opacity-40"]'
     helper_fn.wait_for_element(regenrate_xpath,120)
     if helper_fn.is_element_present(response_xpath):
         response = helper_fn.find_elements(response_xpath)[-1]

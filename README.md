@@ -1,5 +1,9 @@
 # ChatGPT Unofficial API Selenium
 
+## ⭐ Video.
+
+**Link** - https://youtu.be/cMCn2cljlls
+
 ## ⭐ Why this API?
 
 This is an unofficial API for ChatGPT using Selenium. it is not recommended to use this API for production. This API is only for testing purposes.
@@ -92,10 +96,6 @@ To close the remote chrome browser. **(Only once)**
 api_backend.stop_chat_gpt()
 ```
 #### **Note**: You can run `testing_api.py` file to see how to use the API in your project.
-
-## ⭐ Video.
-
-**Link** - https://youtu.be/cMCn2cljlls
 
 ## ⭐ Extras.
 

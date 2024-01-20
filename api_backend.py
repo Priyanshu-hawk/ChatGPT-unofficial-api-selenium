@@ -16,7 +16,7 @@ service = Service(os.getcwd() + "/chromedriver")
 chrome_options = webdriver.ChromeOptions()
 
 chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-# chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 
 driver = webdriver.Chrome(service=service, options=chrome_options)
 helper_fn = helper_funcs.HelperFn(driver)
@@ -84,7 +84,7 @@ def make_gpt_request(text):
     time.sleep(5)
     #waiting for response
     response_xpath = "//*[@class='markdown prose w-full break-words dark:prose-invert light']"
-    regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[2]/div[2]/form/div/div/div/div'
+    regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[2]/div[2]/form/div/div/div/button'
     helper_fn.wait_for_element(regenrate_xpath,120)
     if helper_fn.is_element_present(response_xpath):
         response = helper_fn.find_elements(response_xpath)[-1]

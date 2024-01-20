@@ -1,6 +1,6 @@
-import api_backend
+from api_backend import start_chat_gpt, make_gpt_request, stop_chat_gpt
 
-api_backend.start_chat_gpt()
-a = api_backend.make_gpt_request("Heleo sir")
+start_chat_gpt()
+a = make_gpt_request("This just a test prompt ChatGPT")
 print(a)
-api_backend.stop_chat_gpt()
+stop_chat_gpt()

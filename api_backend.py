@@ -3,23 +3,34 @@ from selenium.webdriver.chrome.service import Service
 import time
 
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.chrome.options import Options
+import undetected_chromedriver as uc
+
 import os
 
 import chrome_handler
 import helper_funcs
 import sys
 
-chrome_handler.start_chrome()
+# current file path
+current_file_path = os.path.dirname(os.path.realpath(__file__))
+user_data_folder = current_file_path + "/chromedata"
+chrome_profile = "Default"
 
-service = Service(os.getcwd() + "/chromedriver")
+def load_chrome():
+    service = Service(os.getcwd() + "/chromedriver")
 
-chrome_options = webdriver.ChromeOptions()
+    options = Options()
+    options.add_argument(f"--user-data-dir={user_data_folder}")
+    options.add_argument(f'--profile-directory={chrome_profile}')
 
-chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-chrome_options.add_argument("--headless")
+    # options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+    options.add_argument("--headless")
 
-driver = webdriver.Chrome(service=service, options=chrome_options)
-helper_fn = helper_funcs.HelperFn(driver)
+    global helper_fn, driver
+
+    driver = uc.Chrome(service=service, options=options)
+    helper_fn = helper_funcs.HelperFn(driver)
 
 
 def check_guildlines():
@@ -98,6 +109,7 @@ def stop_chat_gpt():
     chrome_handler.kill_chrome()
     
 if __name__ == "__main__":
+    load_chrome()
     start_chat_gpt()
     
     try:
@@ -110,5 +122,6 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("KeyboardInterrupt detected, exiting...")
     finally:
-        stop_chat_gpt()
+        driver.close()
+        driver.quit()
         exit(0)

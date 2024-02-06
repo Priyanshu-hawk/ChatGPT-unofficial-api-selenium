@@ -18,18 +18,18 @@ user_data_folder = current_file_path + "/chromedata"
 chrome_profile = "Default"
 
 def load_chrome():
-    service = Service(os.getcwd() + "/chromedriver")
+    # service = Service(os.getcwd() + "/chromedriver")
 
     options = Options()
     options.add_argument(f"--user-data-dir={user_data_folder}")
     options.add_argument(f'--profile-directory={chrome_profile}')
 
     # options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
 
     global helper_fn, driver
 
-    driver = uc.Chrome(service=service, options=options)
+    driver = uc.Chrome(options=options)
     helper_fn = helper_funcs.HelperFn(driver)
 
 
@@ -92,7 +92,7 @@ def make_gpt_request(text):
         time.sleep(2)
         send_btn.click()
 
-    time.sleep(5)
+    helper_fn.wait_for_x_seconds(5)
     #waiting for response
     response_xpath = "//*[@class='markdown prose w-full break-words dark:prose-invert light']"
     regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[2]/div[2]/form/div/div/div/button'
@@ -106,7 +106,9 @@ def make_gpt_request(text):
 
 def stop_chat_gpt():
     driver.close()
-    chrome_handler.kill_chrome()
+    driver.quit()
+
+    # chrome_handler.kill_chrome()
     
 if __name__ == "__main__":
     load_chrome()
@@ -122,6 +124,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("KeyboardInterrupt detected, exiting...")
     finally:
-        driver.close()
-        driver.quit()
-        exit(0)
+        stop_chat_gpt()

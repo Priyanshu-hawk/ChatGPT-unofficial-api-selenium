@@ -63,3 +63,8 @@ class HelperFn:
             logging.error("# Element '%s' is not found." % xpath)
             return False
         return elements
+    
+    def wait_for_x_seconds(self, seconds):
+        logging.info("# Waiting for %s seconds." % seconds)
+        self.driver.implicitly_wait(seconds)
+        logging.info("# Done waiting for %s seconds." % seconds)

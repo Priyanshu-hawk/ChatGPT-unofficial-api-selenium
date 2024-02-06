@@ -1,2 +1,3 @@
 selenium>=4.10.0
 requests>=2.31.0
+undetected-chromedriver

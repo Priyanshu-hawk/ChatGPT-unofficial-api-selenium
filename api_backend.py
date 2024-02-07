@@ -98,6 +98,7 @@ def make_gpt_request(text):
     regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[2]/div[2]/form/div/div/div/button'
     helper_fn.wait_for_element(regenrate_xpath,120)
     if helper_fn.is_element_present(response_xpath):
+        helper_fn.wait_for_x_seconds(2)
         response = helper_fn.find_elements(response_xpath)[-1]
         # print(response.text)
         return response.text # will return all the texual information under that perticular xpath

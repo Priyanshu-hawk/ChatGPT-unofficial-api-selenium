@@ -94,9 +94,13 @@ def make_gpt_request(text):
 
     helper_fn.wait_for_x_seconds(5)
     #waiting for response
-    response_xpath = "//*[@class='markdown prose w-full break-words dark:prose-invert light']"
+    response_xpath_light = "//*[@class='markdown prose w-full break-words dark:prose-invert light']" # for light mode
+    response_xpath_dark = "//*[@class='markdown prose w-full break-words dark:prose-invert dark']" # for dark mode
     regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[2]/div[2]/form/div/div/div/button'
     helper_fn.wait_for_element(regenrate_xpath,120)
+
+    response_xpath = response_xpath_dark if helper_fn.is_element_present(response_xpath_dark) else response_xpath_light # check for dark mode or light mode
+
     if helper_fn.is_element_present(response_xpath):
         helper_fn.wait_for_x_seconds(2)
         response = helper_fn.find_elements(response_xpath)[-1]

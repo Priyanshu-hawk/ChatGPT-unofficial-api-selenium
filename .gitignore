@@ -4,3 +4,4 @@ venv
 LICENSE.chromedriver
 chromedriver
 chromeDriver_zips
+.env

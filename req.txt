@@ -4,3 +4,8 @@ undetected-chromedriver
 Flask
 flask-restful
 Flask-AutoIndex
+
+ngrok
+firebase_admin
+pymongo[srv]==3.11.1
+python-dotenv

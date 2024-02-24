@@ -3,8 +3,12 @@ from flask_restful import Resource, Api
 from flask_autoindex import AutoIndex
 from api_backend import * 
 import json
+from utils import update_remote_ip_ngrok_mongo
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
+
 api = Api(app)
 
 class SingleQ(Resource):
@@ -17,7 +21,9 @@ class SingleQ(Resource):
 api.add_resource(SingleQ, '/singleQuery')
 
 if __name__ == '__main__':
+    port = 5000
     try:
+        update_remote_ip_ngrok_mongo(os.getenv("MONGO_DB_NAME"), os.getenv("MONGO_COLLECTION_NAME"),port=5000 , currStatus=1)
         load_chrome()
         start_chat_gpt()
         app.run(debug=False, port=5000)
@@ -25,3 +31,4 @@ if __name__ == '__main__':
         print("KeyboardInterrupt detected, exiting...")
     finally:
         stop_chat_gpt()
+        update_remote_ip_ngrok_mongo(os.getenv("MONGO_DB_NAME"), os.getenv("MONGO_COLLECTION_NAME"), port=5000, currStatus=0)

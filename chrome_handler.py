@@ -16,7 +16,7 @@ def get_chrome_path():
         raise Exception(f"Unsupported OS: {os_name}")
     
 def start_chrome():
-    chrome_path = chrome_path = get_chrome_path()
+    chrome_path = get_chrome_path()
     subprocess.Popen([f'{chrome_path}','--remote-debugging-port=9222','--user-data-dir=chromedata'],stdout = subprocess.PIPE, stderr = subprocess.PIPE)
 
 def kill_chrome():

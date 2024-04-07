@@ -44,6 +44,7 @@ def check_guildlines():
         print("No guidlines found")
 
 def start_chat_gpt():
+    load_chrome()
     driver.maximize_window()
     driver.get("https://chat.openai.com/chat")
     #if login page is present
@@ -116,7 +117,6 @@ def stop_chat_gpt():
     # chrome_handler.kill_chrome()
     
 if __name__ == "__main__":
-    load_chrome()
     start_chat_gpt()
     
     try:

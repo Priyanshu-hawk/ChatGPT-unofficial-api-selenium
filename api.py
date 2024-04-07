@@ -24,7 +24,6 @@ if __name__ == '__main__':
     port = 5000
     try:
         update_remote_ip_ngrok_mongo(os.getenv("MONGO_DB_NAME"), os.getenv("MONGO_COLLECTION_NAME"),port=5000 , currStatus=1)
-        load_chrome()
         start_chat_gpt()
         app.run(debug=False, port=5000)
     except KeyboardInterrupt as e:

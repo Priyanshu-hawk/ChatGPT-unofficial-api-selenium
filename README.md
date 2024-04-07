@@ -120,3 +120,13 @@ You can contribute to this project by making a pull request. If you want to cont
 Any type of contribution is welcome. You can contribute to this project by improving the code, adding new features, fixing bugs, etc.
 
 Thank you.
+
+## Star History
+
+<a href="https://star-history.com/#Priyanshu-hawk/ChatGPT-unofficial-api-selenium&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Priyanshu-hawk/ChatGPT-unofficial-api-selenium&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Priyanshu-hawk/ChatGPT-unofficial-api-selenium&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Priyanshu-hawk/ChatGPT-unofficial-api-selenium&type=Date" />
+ </picture>
+</a>

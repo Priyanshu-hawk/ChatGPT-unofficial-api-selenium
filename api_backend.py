@@ -87,7 +87,7 @@ def make_gpt_request(text):
         text_area.send_keys(text)
 
         #send button
-        send_btn_xpath = "//*[@data-testid='send-button']"
+        send_btn_xpath = "//*[@data-testid='fruitjuice-send-button']"
         helper_fn.wait_for_element(send_btn_xpath)
         send_btn = helper_fn.find_element(send_btn_xpath)
         time.sleep(2)

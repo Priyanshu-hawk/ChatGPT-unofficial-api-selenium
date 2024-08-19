@@ -49,37 +49,11 @@ def start_chat_gpt():
     driver.get("https://chatgpt.com/")
     #if login page is present
     time.sleep(3)
-    login_msg_xpath = "//*[contains(text(), 'Log in with your OpenAI account to continue')]"
-    login_page = helper_fn.is_element_present(login_msg_xpath)
-    if login_page:
-        login_btn_xpath = "//*[@class='btn relative btn-primary']//*[contains(text(), 'Log in')]"
-        helper_fn.wait_for_element(login_btn_xpath)
-        login_button = helper_fn.find_element(login_btn_xpath)
-        login_button.click()
-        
-        time.sleep(2)
-        #google login
-        google_btn_xpath = "//*[@data-provider='google']"
-        helper_fn.wait_for_element(google_btn_xpath)
-        google_btn = helper_fn.find_element(google_btn_xpath)
-        google_btn.click()
-
-        time.sleep(2)
-        #select mail
-        gmail_xpath = "//*[contains(text(), 'PRIYANSHU PATEL')]" ## change this to your google account name.
-        helper_fn.wait_for_element(gmail_xpath)
-        gmail = helper_fn.find_element(gmail_xpath)
-        gmail.click()
-
-    else:
-        print("Already logged in")
-
     #check for guidlines
     #check_guildlines()
 
 def make_gpt_request(text):
-
-    time.sleep(3)
+    time.sleep(1)
     text_area_xpath = "//*[@id='prompt-textarea']"
     helper_fn.wait_for_element(text_area_xpath)
     if helper_fn.is_element_present(text_area_xpath):
@@ -90,7 +64,7 @@ def make_gpt_request(text):
         send_btn_xpath = "//*[@data-testid='send-button']"
         helper_fn.wait_for_element(send_btn_xpath)
         send_btn = helper_fn.find_element(send_btn_xpath)
-        time.sleep(2)
+        time.sleep(1)
         send_btn.click()
 
     helper_fn.wait_for_x_seconds(5)
@@ -99,11 +73,10 @@ def make_gpt_request(text):
     response_xpath_dark = "//*[@class='markdown prose w-full break-words dark:prose-invert dark']" # for dark mode
     regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[1]/div[2]/div[1]/div/form/div/div[2]/div/div/button'
     helper_fn.wait_for_element(regenrate_xpath,120)
-
     response_xpath = response_xpath_dark if helper_fn.is_element_present(response_xpath_dark) else response_xpath_light # check for dark mode or light mode
-
+    time.sleep(1)
     if helper_fn.is_element_present(response_xpath):
-        helper_fn.wait_for_x_seconds(2)
+        helper_fn.wait_for_x_seconds(1)
         response = helper_fn.find_elements(response_xpath)[-1]
         # print(response.text)
         return response.text # will return all the texual information under that perticular xpath
@@ -122,7 +95,7 @@ if __name__ == "__main__":
     try:
         while True:
             req = input("Enter text: ")
-            if req == "i quit!":
+            if req == "!quit":
                 break
             resp = make_gpt_request(req)
             print(resp)

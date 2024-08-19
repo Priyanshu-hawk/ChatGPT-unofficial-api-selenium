@@ -33,22 +33,22 @@ def load_chrome():
     helper_fn = helper_funcs.HelperFn(driver)
 
 
-def check_guildlines():
-    guidlines_xpath = "//*[contains(text(), 'Tips for getting started')]"
-    helper_fn.wait_for_element(guidlines_xpath)
-    if helper_fn.is_element_present(guidlines_xpath):
-        guidlines_close_xpath = "//*[contains(text(), 'Okay, let’s go')]"
-        guidlines_close = helper_fn.find_element(guidlines_close_xpath)
-        guidlines_close.click()
-    else:
-        print("No guidlines found")
+#def check_guildlines():
+    #guidlines_xpath = "//*[contains(text(), 'Tips for getting started')]"
+    #helper_fn.wait_for_element(guidlines_xpath)
+    #if helper_fn.is_element_present(guidlines_xpath):
+    #    guidlines_close_xpath = "//*[contains(text(), 'Okay, let’s go')]"
+    #    guidlines_close = helper_fn.find_element(guidlines_close_xpath)
+    #    guidlines_close.click()
+    #else:
+    #    print("No guidlines found")
 
 def start_chat_gpt():
     load_chrome()
     driver.maximize_window()
-    driver.get("https://chat.openai.com/chat")
+    driver.get("https://chatgpt.com/")
     #if login page is present
-    time.sleep(2)
+    time.sleep(3)
     login_msg_xpath = "//*[contains(text(), 'Log in with your OpenAI account to continue')]"
     login_page = helper_fn.is_element_present(login_msg_xpath)
     if login_page:
@@ -75,7 +75,7 @@ def start_chat_gpt():
         print("Already logged in")
 
     #check for guidlines
-    check_guildlines()
+    #check_guildlines()
 
 def make_gpt_request(text):
 
@@ -87,7 +87,7 @@ def make_gpt_request(text):
         text_area.send_keys(text)
 
         #send button
-        send_btn_xpath = "//*[@data-testid='fruitjuice-send-button']"
+        send_btn_xpath = "//*[@data-testid='send-button']"
         helper_fn.wait_for_element(send_btn_xpath)
         send_btn = helper_fn.find_element(send_btn_xpath)
         time.sleep(2)
@@ -97,7 +97,7 @@ def make_gpt_request(text):
     #waiting for response
     response_xpath_light = "//*[@class='markdown prose w-full break-words dark:prose-invert light']" # for light mode
     response_xpath_dark = "//*[@class='markdown prose w-full break-words dark:prose-invert dark']" # for dark mode
-    regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[2]/div[2]/form/div/div/div/button'
+    regenrate_xpath = '//*[@id="__next"]/div[1]/div[2]/main/div[1]/div[2]/div[1]/div/form/div/div[2]/div/div/button'
     helper_fn.wait_for_element(regenrate_xpath,120)
 
     response_xpath = response_xpath_dark if helper_fn.is_element_present(response_xpath_dark) else response_xpath_light # check for dark mode or light mode

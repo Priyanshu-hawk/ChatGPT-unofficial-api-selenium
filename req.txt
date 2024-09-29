@@ -4,6 +4,7 @@ undetected-chromedriver
 Flask
 flask-restful
 Flask-AutoIndex
+setuptools
 
 ngrok
 firebase_admin

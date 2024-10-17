@@ -36,6 +36,8 @@ def get_download_version(c_version):
         if curr_version != None:
             if front_version_extractor(c_version) == front_version_extractor(curr_version):
                 return str(curr_version[:-1])
+            else:
+                return str(c_version)
     
 def json_version_extractor(vrsn):
     r = requests.get("https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json")

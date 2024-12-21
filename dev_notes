@@ -1,0 +1,93 @@
+any type of stractrace error like :
+Stacktrace:
+        GetHandleVerifier [0x0104EC13+23731]
+        (No symbol) [0x00FD4FD0]
+        BaseThreadInitThunk [0x772BFCC9+25]
+        RtlGetAppContainerNamedObjectPath [0x7748806E+238]
+
+Shows that the synchronous code, at that specific moment, can't find the element, so it's failing
+Solution : Delay the timer a more, or check if the x-path is correct, or check the browser - if any overlayfrom the chatgpt is there or not, or the chrome / chatgpt has went to power saving mode so we need to focus to the tab
+
+needs to add error fixes and retry to the query...
+
+
+-------------
+
+        # 4. Wait for response to appear and complete
+        print("Step 4: Waiting for response...")
+        try:
+            # First, wait for initial response
+            response_container_xpath = "//div[contains(@class, 'markdown prose w-full break-words')]"
+            initial_response = WebDriverWait(driver, 30).until(
+                EC.presence_of_element_located((By.XPATH, response_container_xpath))
+            )
+
+            print("✓ Initial response detected")
+            
+            # Function to check if response is complete
+            def is_response_complete():
+                try:
+                    # Method 1: Check if the send button is enabled again
+                    send_button = driver.find_element(By.XPATH, "//*[@data-testid='send-button']")
+                    if send_button.is_enabled():
+                        return True
+                        
+                    # Method 2: Check for the presence of typing indicators
+                    typing_indicators = driver.find_elements(By.XPATH, "//div[contains(@class, 'result-streaming')]")
+                    if not typing_indicators:
+                        return True
+                        
+                    # Method 3: Check if the response text has stopped changing
+                    current_response = driver.find_elements(By.XPATH, response_container_xpath)[-1].text
+                    time.sleep(2)  # Brief wait
+                    new_response = driver.find_elements(By.XPATH, response_container_xpath)[-1].text
+                    return current_response == new_response and current_response != ""
+                    
+                except Exception as e:
+                    return False
+            
+            # Wait for response completion with timeout
+            start_time = time.time()
+            timeout = 180  # 3 minutes timeout
+            last_length = 0
+            
+            while time.time() - start_time < timeout:
+                try:
+                    # Get current response
+                    responses = driver.find_elements(By.XPATH, response_container_xpath)
+                    if responses:
+                        current_text = responses[-1].text
+                        current_length = len(current_text)
+                        
+                        # If text length hasn't changed for 5 seconds and response seems complete
+                        if current_length > 0 and current_length == last_length and is_response_complete():
+                            time.sleep(5)  # Final verification wait
+                            if current_length == len(responses[-1].text):
+                                break
+                        
+                        last_length = current_length
+                    
+                    
+                except Exception as e:
+                    print(f"Warning: Error while checking response: {str(e)}")
+                    
+                time.sleep(1)  # Prevent excessive CPU usage
+            
+            print("✓ Response completion confirmed")
+                
+            # else:  # Timeout occurred
+            #     raise TimeoutException("Response generation timed out")
+
+        except TimeoutException as te:
+            print(f"Timeout while waiting for response: {str(te)}")
+            raise
+        except Exception as e:
+            print(f"❌ Error in Step 4 (Response Detection): {str(e)}")
+            raise
+                    
+
+            
+        # Short wait for UI to stabilize
+        time.sleep(2)
+
+-------------------------------------

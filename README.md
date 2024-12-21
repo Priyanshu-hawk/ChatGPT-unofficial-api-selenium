@@ -74,7 +74,7 @@ python api_backend.py
 ```
 This will open in a terminal where you can type your message and get the response from chatgpt.
 
-To exit the program, in terminal type `i quit!` **(sorry for being weird)** and press enter.
+To exit the program, in terminal type `!quit` and press enter.
 
 ### 2. Using the API in your project via function calls.
 ```

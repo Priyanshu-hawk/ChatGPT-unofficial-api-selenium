@@ -3,7 +3,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import logging
-import pyperclip
 from selenium.webdriver.common.keys import Keys
 
 # Global variables
@@ -97,19 +96,7 @@ def send_keys(xpath, text, timeout=DEFAULT_TIMEOUT):
             EC.presence_of_element_located((By.XPATH, xpath))
         )
         element.clear()
-        
-        # Store current clipboard content
-        original_clipboard = pyperclip.paste()
-        
-        # Copy text to clipboard
-        pyperclip.copy(text)
-        
-        # Use Ctrl+V to paste
-        element.send_keys(Keys.CONTROL + 'v')
-        
-        # Restore original clipboard content
-        pyperclip.copy(original_clipboard)
-        
+        element.send_keys(text)
         return True
     except Exception as e:
         logging.error(f"Error sending keys to element {xpath}: {str(e)}")

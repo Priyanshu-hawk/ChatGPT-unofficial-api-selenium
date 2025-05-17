@@ -1,4 +1,6 @@
+from platform import machine
 from sys import platform
+from typing import Literal
 import subprocess, requests, os
 import requests, xml.etree.ElementTree as ET
 try:
@@ -66,6 +68,14 @@ def versionChk():
 # print(get_download_version('115.0.5763.0'))
 
 
+def get_chrome_driver_url(
+        version: str,
+        platform_type: Literal['mac-x64', 'mac-arm64', 'linux64', 'win32', 'win64'],
+) -> str:
+    url = 'https://storage.googleapis.com/chrome-for-testing-public'
+    return f'{url}/{version}/{platform_type}/chromedriver-{platform_type}.zip'
+
+
 def chromeDriverDownloader():
     if curPlt == 'linux':
         print("[+] Detected System: Linux")
@@ -80,9 +90,10 @@ def chromeDriverDownloader():
 
                 if front_version_extractor(vrsn) < front_version_extractor("115.0.5763.0"):
                     print("Downloading Chromedriver for your system of version:",get_download_version(vrsn))
-                    url = "https://chromedriver.storage.googleapis.com/"+get_download_version(vrsn)+"/chromedriver_linux64.zip"
+                    url = get_chrome_driver_url(get_download_version(vrsn))
                     r = requests.get(url, allow_redirects=True)
-                    
+                    r.raise_for_status()
+
                     if "chromeDriver_zips" not in os.listdir():
                         print("Creating chromeDriver_zips folder")
                         os.mkdir("chromeDriver_zips")
@@ -92,7 +103,7 @@ def chromeDriverDownloader():
                     print("Downloading Chromedriver for your system of version:",json_version_extractor(vrsn)[0])
                     url = json_version_extractor(vrsn)[1]
                     r = requests.get(url, allow_redirects=True)
-                    
+
                     if "chromeDriver_zips" not in os.listdir():
                         print("Creating chromeDriver_zips folder")
                         os.mkdir("chromeDriver_zips")
@@ -122,9 +133,17 @@ def chromeDriverDownloader():
                 todl = subprocess.run(['google-chrome',' --version'], capture_output=True).stdout.decode()
                 vrsn  = (todl.split(" "))[2]
                 print("Downloading Chromedriver for your system of version:",get_download_version(vrsn))
-                url = "https://chromedriver.storage.googleapis.com/"+get_download_version(vrsn)+"/chromedriver_mac64.zip"
+                platform_type: Literal['mac-x64', 'mac-arm64']
+                if machine() == 'arm64':
+                    # M1/M2...
+                    platform_type = 'mac-arm64'
+                else:
+                    # Intel chip
+                    platform_type = 'mac-x64'
+                url = get_chrome_driver_url(vrsn, platform_type)
                 r = requests.get(url, allow_redirects=True)
-                
+                r.raise_for_status()
+
                 if "chromeDriver_zips" not in os.listdir():
                     print("Creating chromeDriver_zips folder")
                     os.mkdir("chromeDriver_zips")
@@ -132,7 +151,10 @@ def chromeDriverDownloader():
                 open("chromeDriver_zips/chromedriver_mac64.zip","wb").write(r.content)
             except FileNotFoundError as fnf:
                 print("[-]Error Found:",fnf)
-                print("[+] Google Chrome is not installed, Please install it!! - https://www.google.com/chrome/")
+                print(
+                    "[+] Google Chrome is not installed (https://www.google.com/chrome/), "
+                    "or not included in the system PATH"
+                )
                 exit(0)
         else:
             if versionChk():
@@ -151,8 +173,9 @@ def chromeDriverDownloader():
                 todl = os.popen('reg query "HKEY_CURRENT_USER\Software\Google\Chrome\BLBeacon" /v version')
                 vrsn = todl.read().split(" ")[-1].strip()
                 print("Downloading Chromedriver for your system of version:",get_download_version(vrsn))
-                url = "https://chromedriver.storage.googleapis.com/"+get_download_version(vrsn)+"/chromedriver_win32.zip"
+                url = get_chrome_driver_url(get_download_version(vrsn), 'win32')
                 r = requests.get(url, allow_redirects=True)
+                r.raise_for_status()
 
                 if "chromeDriver_zips" not in os.listdir():
                     print("Creating chromeDriver_zips folder")

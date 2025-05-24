@@ -1,6 +1,5 @@
 import os
 import time
-import pyperclip
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -226,7 +225,10 @@ def make_gpt_request_and_copy(text):
             logging.info("Step 4: Waiting for response...")
             try:
                 # First, wait for response container to appear
-                response_container_xpath = "//div[contains(@class, 'markdown prose w-full break-words')]"
+                response_container_xpath = (
+                    "//div[contains(@class, "
+                    "'markdown prose dark:prose-invert w-full break-words dark')]"
+                )
                 if helper_fn.wait_for_element(response_container_xpath, timeout=30):
                     logging.info("Initial response detected")
 

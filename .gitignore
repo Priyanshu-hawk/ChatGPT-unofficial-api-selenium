@@ -5,3 +5,5 @@ LICENSE.chromedriver
 chromedriver
 chromeDriver_zips
 .env
+.idea
+THIRD_PARTY_NOTICES.chromedriver
